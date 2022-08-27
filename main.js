@@ -25,9 +25,14 @@ rightWristY = 0;
 rightWristX = 0;
 scoreRightWrist = 0;
 
-game_status = "";
-
+//Define a variable to hold the status of the game
+game_status="";
  
+
+function preload() {
+  missed = loadSound("missed.wav");
+  paddleTouch = loadSound("ball_touch_paddel.wav");
+}
 
 function setup(){
 var canvas =  createCanvas(700,600);
@@ -59,12 +64,14 @@ function gotPoses(results)
 
 function startGame()
 {
-   game_status = "start";
-   document.getElementById("status").innerHTML = "Game Is Loaded";
+  game_status = "start";
+  document.getElementById("status").innerHTML = "Game Is Loaded";
+   //Set the value of the status variable created in step 1 to “start”.
+ //Update the h3 tag which we have created inside index.html file in project 138 who has id “status” to "Game Is Loaded”.
 }
 
 function draw(){
-  if(game_status == "start")
+if(game_status == "start") // inside the if condition check if the game_status is equal to the value "start".
 {
   background(0); 
   image(video, 0, 0, 700, 600);
@@ -125,6 +132,7 @@ function reset(){
    ball.y = height/2+100;
    ball.dx=3;
    ball.dy =3;   
+   missed.play();
 }
 
 
@@ -162,11 +170,12 @@ function move(){
    ball.y = ball.y + ball.dy;
    if(ball.x+ball.r>width-ball.r/2){
        ball.dx=-ball.dx-0.5;       
+       paddleTouch.play();
    }
   if (ball.x-2.5*ball.r/2< 0){
   if (ball.y >= paddle1Y&& ball.y <= paddle1Y + paddle1Height) {
     ball.dx = -ball.dx+0.5; 
-    
+    paddleTouch.play();
   }
   else{
     pcscore++;
